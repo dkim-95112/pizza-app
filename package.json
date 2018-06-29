@@ -1,0 +1,26 @@
+{
+  "name": "pizza",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.51",
+    "@babel/preset-env": "^7.0.0-beta.51",
+    "@babel/preset-react": "^7.0.0-beta.51",
+    "babel-loader": "^8.0.0-beta.4",
+    "webpack": "^4.14.0",
+    "webpack-command": "^0.3.1"
+  },
+  "scripts": {
+    "build": "npm run webpack && npm run copy-index",
+    "webpack": "webpack",
+    "copy-index": "cp index.html dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "david kim",
+  "license": "ISC"
+}
