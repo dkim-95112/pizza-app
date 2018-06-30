@@ -1,7 +1,10 @@
 module.exports = {
     mode: 'development',
     entry: './index.jsx',
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
+    devServer: {
+        contentBase: './dist'
+    },
     module: {
         rules: [
             {
