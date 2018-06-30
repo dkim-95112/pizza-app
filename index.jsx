@@ -76,36 +76,33 @@ class PizzaApp extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="pizza-app">
         <JumboTron/>
         <ul className="franchise-menu">{
           ['new york', 'chicago', 'san francisco'].map(location => {
-            return <Franchise
-              key={location}
+            return <li key={location}><Franchise
               location={location}
               selected={this.state.selectedLocation === location}
               cbSelectLocation={this.cbSelectLocation}
-            />
+            /></li>
           })
         }</ul>
         <ul className="pizza-menu">{
           ['cheese', 'meat', 'veggie'].map(specialty => {
-            return <Pizza
-              key={specialty}
+            return <li key={specialty}><Pizza
               specialty={specialty}
               selected={this.state.selectedSpecialty === specialty}
               cbSelectSpecialty={this.cbSelectSpecialty}
-            />
+            /></li>
           })
         }</ul>
         <ul className="topping-menu">{
           ['mushrooms', 'pepperoni'].map(topping => {
-            return <Topping
-              key={topping}
+            return <li key={topping}><Topping
               topping={topping}
               selected={this.state[topping]}
               cbToggleTopping={this.cbToggleTopping}
-            />
+            /></li>
           })
         }</ul>
       </div>
