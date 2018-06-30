@@ -3,32 +3,74 @@ import ReactDOM from 'react-dom'
 import JumboTron from './src/jumbotron/index.jsx'
 import './index.css'
 
-class Franchise extends React.Component {
-  render() {
-    return (
-      <div className="franchise">
-        {this.props.locationKey}
-        <a href="#" onClick={e => this.props.cbSelect(e, this.props.locationKey)}>
-          Order Pizza Online
-        </a>
-      </div>
-    )
-  }
+function Franchise(props) {
+  return (
+    <div className="franchise" selected={props.selected}>
+      <span>{props.location}</span>
+      <a href="#" onClick={e => props.cbSelectLocation(e, props.location)}>
+        Order Pizza Online
+      </a>
+    </div>
+  )
+}
+
+function Pizza(props) {
+  return (
+    <div
+      className="pizza"
+      selected={props.selected}
+      onClick={e => props.cbSelectSpecialty(e, props.specialty)}
+    >
+      <span>{props.specialty}</span>
+    </div>
+  )
+}
+
+function Topping(props) {
+  return (
+    <div className="topping">
+      <label>
+        <input
+          type="checkbox"
+          selected={props.selected}
+          onChange={e => props.cbToggleTopping(e, props.topping)}
+        />
+        <span>{props.topping}</span>
+      </label>
+    </div>
+  )
 }
 
 class PizzaApp extends React.Component {
-  constructor(props){
-    super(props);
+  constructor(props) {
+    super(props)
     this.state = {
-      selectedLocationKey: null
+      selectedLocation: '',
+      selectedSpecialty: '',
+      mushrooms: false,
+      pepperoni: false
     }
-    this.cbSelect = this.cbSelect.bind(this)
+    this.cbSelectLocation = this.cbSelectLocation.bind(this)
+    this.cbSelectSpecialty = this.cbSelectSpecialty.bind(this)
+    this.cbToggleTopping = this.cbToggleTopping.bind(this)
   }
 
-  cbSelect(e, locationKey) {
-    e.preventDefault();
+  cbSelectLocation(e, location) {
+    e.preventDefault()
     this.setState({
-      selectedLocationKey: locationKey
+      selectedLocation: location
+    })
+  }
+
+  cbSelectSpecialty(e, specialty) {
+    this.setState({
+      selectedSpecialty: specialty
+    })
+  }
+
+  cbToggleTopping(e, topping) {
+    this.setState({
+      [topping]: !this.state[topping]
     })
   }
 
@@ -36,9 +78,36 @@ class PizzaApp extends React.Component {
     return (
       <div>
         <JumboTron/>
-        <Franchise cbSelect={this.cbSelect} locationKey="new york"/>
-        <Franchise cbSelect={this.cbSelect} locationKey="chicago"/>
-        <Franchise cbSelect={this.cbSelect} locationKey="san francisco"/>
+        <ul className="franchise-menu">{
+          ['new york', 'chicago', 'san francisco'].map(location => {
+            return <Franchise
+              key={location}
+              location={location}
+              selected={this.state.selectedLocation === location}
+              cbSelectLocation={this.cbSelectLocation}
+            />
+          })
+        }</ul>
+        <ul className="pizza-menu">{
+          ['cheese', 'meat', 'veggie'].map(specialty => {
+            return <Pizza
+              key={specialty}
+              specialty={specialty}
+              selected={this.state.selectedSpecialty === specialty}
+              cbSelectSpecialty={this.cbSelectSpecialty}
+            />
+          })
+        }</ul>
+        <ul className="topping-menu">{
+          ['mushrooms', 'pepperoni'].map(topping => {
+            return <Topping
+              key={topping}
+              topping={topping}
+              selected={this.state[topping]}
+              cbToggleTopping={this.cbToggleTopping}
+            />
+          })
+        }</ul>
       </div>
     )
   }
@@ -48,4 +117,4 @@ class PizzaApp extends React.Component {
 ReactDOM.render(
   <PizzaApp/>,
   document.getElementById('root')
-);
+)
