@@ -2,6 +2,8 @@
 @hover-higlight-color: rgba(255, 146, 153, 0.6);
 @text-shadow: -4px -6px rgba(0,0,0,0.5);
 @transition-duration: 0.3s;
+@selected-linear-gradient: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+
 
 #root {
   font-family: Arial, sans-serif;
@@ -9,7 +11,7 @@
 }
 
 .pizza-app {
-  padding: 5rem 1rem 1rem;
+  padding: 4rem 1rem 1rem;
   background-image: url(pizza.jpg);
   min-height: 650px;
 }
@@ -55,7 +57,9 @@ h3 {
 
 fieldset {
   legend {
-    color: #ffffff;
+    position: relative;
+    top: 1rem;
+    color: white;
     font-weight: bold;
     font-size: 4rem;
     margin-left: 2rem;
@@ -70,13 +74,13 @@ fieldset {
     border-radius: 0.5rem;
     li {
       flex: 0.3333;
-      padding: 1em;
+      padding: 1rem;
       cursor: pointer;
       &:not(:first-of-type) {
-        border-left: 1px solid white;
+        border-left: 3px solid rgba(255, 255, 255, 0.5);
       }
       background-color: transparent;
-      transition-property: background-color;
+      transition-property: background-color, text-shadow;
       transition-duration: @transition-duration;
       &:hover {
         background-color: @hover-higlight-color;
@@ -84,6 +88,7 @@ fieldset {
       &.selected {
         cursor: auto;
         text-shadow: @text-shadow;
+        background: @selected-linear-gradient;
         &:hover {
           background-color: unset;
         }
@@ -93,20 +98,27 @@ fieldset {
 }
 
 .select-specialty-pizza {
-  background-color: @card-bgcolor;
   .pizza-specialties {
     display: flex;
+    background-color: @card-bgcolor;
     li {
       flex: 0.3333;
       cursor: pointer;
-      padding: 1em;
-      transition: background-color @transition-duration;
+      padding: 1rem;
+      background-color: transparent;
+      transition-property: background-color, text-shadow;
+      transition-duration: @transition-duration;
+      &:not(:first-of-type) {
+        border-left: 3px solid rgba(255, 255, 255, 0.5);
+      }
       &:hover {
         background-color: @hover-higlight-color;
       }
       &.selected {
         border: 1px solid darkcyan;
         cursor: auto;
+        text-shadow: @text-shadow;
+        background: @selected-linear-gradient;
         &:hover {
           background-color: unset;
         }
@@ -115,11 +127,11 @@ fieldset {
   }
 }
 
-.select-toppings {
+.toppings {
   background-color: @card-bgcolor;
   .topping {
-    padding: 1em;
     display: block;
+    padding: 1rem;
     h3 {
       display: inline;
       margin-left: 1rem;
@@ -149,6 +161,7 @@ fieldset {
     &.optional {
       cursor: pointer;
       transition: background-color @transition-duration;
+      background-color: transparent;
       &:hover {
         background-color: @hover-higlight-color;
       }

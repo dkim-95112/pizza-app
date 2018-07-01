@@ -79,6 +79,7 @@ function RequiredTopping(props) {
       <input
         type="checkbox"
         checked disabled
+        value={props.topping}
       />
       <h3>{props.topping}</h3>
     </label>
@@ -92,6 +93,7 @@ function OptionalTopping(props) {
         type="checkbox"
         checked={props.checked}
         onChange={e => props.cbToggleTopping(e, props.topping)}
+        value={props.topping}
       />
       <h3>{props.topping}</h3>
     </label>
@@ -141,89 +143,100 @@ class PizzaApp extends React.Component {
         requiredToppingsBySpecialty[selectedSpecialty] : [],
       toppings = isPizzaSelected ?
         franchisesByCity[selectedCity][selectedSpecialty].toppings : []
-    return (
-      <div className="pizza-app">
-        <fieldset className="select-city">
-          <legend>select city</legend>
-          <ul className="franchises">{
-            cities.map(city => {
+    return <div className="pizza-app">
+      <fieldset className="select-city">
+        <legend>select city</legend>
+        <ul className="franchises">{
+          cities.map(city => {
+            return <li
+              key={city}
+              className={selectedCity === city ? 'selected' : ''}
+              onClick={e => this.cbSelectCity(e, city)}
+            >
+              <Franchise
+                name={franchisesByCity[city].name}
+                city={city}
+              />
+            </li>
+          })
+        }</ul>
+      </fieldset>
+      <div className="hiding-container">
+        <fieldset className={`select-specialty-pizza
+            ${selectedCity ? '' : 'hidden'}`}
+        >
+          <legend>select specialty pizza</legend>
+          <ul className="pizza-specialties">{
+            selectedCity &&
+            ['cheese', 'meat', 'veggie'].map(specialty => {
               return <li
-                key={city}
-                className={selectedCity === city ? 'selected' : ''}
-                onClick={e => this.cbSelectCity(e, city)}
+                key={specialty}
+                className={selectedSpecialty === specialty ? 'selected' : ''}
+                onClick={e => this.cbSelectSpecialty(e, specialty)}
               >
-                <Franchise
-                  name={franchisesByCity[city].name}
-                  city={city}
+                <Pizza
+                  specialty={specialty}
+                  name={franchisesByCity[selectedCity][specialty].name}
                 />
               </li>
             })
           }</ul>
         </fieldset>
+      </div>
+      <div className="button-container">
         <div className="hiding-container">
-          <fieldset className={`select-specialty-pizza
-            ${selectedCity ? '' : 'hidden'}`}
+          <fieldset
+            className={`select-toppings
+            ${isPizzaSelected ? '' : 'hidden'}`}
           >
-            <legend>select specialty pizza</legend>
-            <ul className="pizza-specialties">{
-              selectedCity &&
-              ['cheese', 'meat', 'veggie'].map(specialty => {
-                return <li
-                  key={specialty}
-                  className={selectedSpecialty === specialty ? 'selected' : ''}
-                  onClick={e => this.cbSelectSpecialty(e, specialty)}
-                >
-                  <Pizza
-                    specialty={specialty}
-                    name={franchisesByCity[selectedCity][specialty].name}
+            <legend>select toppings</legend>
+            <ul className="toppings required">{
+              requiredToppings &&
+              requiredToppings.map(topping => {
+                return <li key={topping}>
+                  <RequiredTopping topping={topping}/>
+                </li>
+              })
+            }</ul>
+            <ul className="toppings optional">{
+              toppings.map(topping => {
+                return <li key={topping}>
+                  <OptionalTopping
+                    topping={topping}
+                    checked={this.state[topping]}
+                    cbToggleTopping={this.cbToggleTopping}
                   />
                 </li>
               })
             }</ul>
           </fieldset>
         </div>
-        <div className="button-container">
-          <div className="hiding-container">
-            <fieldset
-              className={`select-toppings
-            ${isPizzaSelected ? '' : 'hidden'}`}
-            >
-              <legend>select toppings</legend>
-              <ul className="toppings required">{
-                requiredToppings &&
-                requiredToppings.map(topping => {
-                  return <li key={topping}>
-                    <RequiredTopping topping={topping}/>
-                  </li>
-                })
-              }</ul>
-              <ul className="toppings optional">{
-                toppings.map(topping => {
-                  return <li key={topping}>
-                    <OptionalTopping
-                      topping={topping}
-                      checked={this.state[topping]}
-                      cbToggleTopping={this.cbToggleTopping}
-                    />
-                  </li>
-                })
-              }</ul>
-            </fieldset>
-          </div>
-          {
-            isPizzaSelected ? (
-              <button
-                className={`order-button`}
-                onClick={e => alert(JSON.stringify(this.state, null, '\t'))}
-              >
-                Order Now
-              </button>
-            ) : ''
-          }
-        </div>
+        {isPizzaSelected ? <OrderButton {...this.state}/> : ''}
       </div>
-    )
+    </div>
   }
+}
+
+function OrderButton(props) {
+  function onClick(e) {
+    const r = {}
+    document
+      .querySelectorAll('.select-toppings input')
+      .forEach(node => {
+        r[node.value] = node.checked
+      })
+    alert(JSON.stringify({
+      selectedCity: props.selectedCity,
+      selectedSpecialty: props.selectedSpecialty,
+      toppings: r
+    }, null, '\t'))
+  }
+
+  return (
+    <button className="order-button" onClick={onClick}>
+      Order Now
+    </button>
+  )
 }
 
 function FixedHead(){
