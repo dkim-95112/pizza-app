@@ -153,7 +153,7 @@ class PizzaApp extends React.Component {
       <div className="pizza-app">
         <JumboTron/>
         <fieldset className="select-city">
-          <legend>Select City</legend>
+          <legend>SELECT CITY</legend>
           <ul className="franchises">{
             cities.map(city => {
               return <li key={city}>
