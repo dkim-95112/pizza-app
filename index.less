@@ -1,5 +1,7 @@
 @card-bgcolor: rgba(255, 38, 33, 0.97);
-@hover-higlight-color: #ffacb1;
+@hover-higlight-color: rgba(255, 146, 153, 0.6);
+@text-shadow: -4px -6px rgba(0,0,0,0.5);
+@transition-duration: 0.3s;
 
 #root {
   font-family: Arial, sans-serif;
@@ -41,7 +43,7 @@ h3 {
     position: relative;
     left: 0;
     bottom: 0;
-    transition: bottom 0.3s;
+    transition: bottom @transition-duration;
   }
   .select-specialty-pizza.hidden {
     bottom: 5rem;
@@ -52,30 +54,36 @@ h3 {
 }
 
 fieldset {
-  border-radius: 0.5rem;
   legend {
     color: #ffffff;
     font-weight: bold;
     font-size: 4rem;
     margin-left: 2rem;
-    text-shadow: -4px -6px rgba(0,0,0,0.5);
+    text-shadow: @text-shadow;
   }
 }
 
 .select-city {
-  background-color: @card-bgcolor;
   .franchises {
     display: flex;
+    background-color: @card-bgcolor;
+    border-radius: 0.5rem;
     li {
-      flex: 0.33;
+      flex: 0.3333;
       padding: 1em;
       cursor: pointer;
+      &:not(:first-of-type) {
+        border-left: 1px solid white;
+      }
+      background-color: transparent;
+      transition-property: background-color;
+      transition-duration: @transition-duration;
       &:hover {
         background-color: @hover-higlight-color;
       }
       &.selected {
         cursor: auto;
-        border: 1px solid #d97181;
+        text-shadow: @text-shadow;
         &:hover {
           background-color: unset;
         }
@@ -89,15 +97,19 @@ fieldset {
   .pizza-specialties {
     display: flex;
     li {
-      flex: 0.33;
+      flex: 0.3333;
       cursor: pointer;
       padding: 1em;
+      transition: background-color @transition-duration;
       &:hover {
         background-color: @hover-higlight-color;
       }
       &.selected {
         border: 1px solid darkcyan;
         cursor: auto;
+        &:hover {
+          background-color: unset;
+        }
       }
     }
   }
@@ -108,8 +120,35 @@ fieldset {
   .topping {
     padding: 1em;
     display: block;
+    h3 {
+      display: inline;
+      margin-left: 1rem;
+      vertical-align: top;
+    }
+    input[type=checkbox] {
+      -webkit-appearance: none;
+      height: 2rem;
+      width: 2rem;
+      border: 2px solid gray;
+      position: relative;
+      &::after {
+        content: '✘';
+        color: white;
+        position: absolute;
+        top: -1rem;
+        left: 0;
+        font-size: 3rem;
+      }
+      &:checked::after {
+        content: '✔';
+      }
+      &:focus {
+        outline: none;
+      }
+    }
     &.optional {
       cursor: pointer;
+      transition: background-color @transition-duration;
       &:hover {
         background-color: @hover-higlight-color;
       }
@@ -129,6 +168,10 @@ fieldset {
     padding: 0.5rem 3.5rem;
     border-radius: 0.5rem;
     cursor: pointer;
+    transition: background-color @transition-duration;
+    &:hover{
+      background: rgba(0, 0, 0, 0.6);
+    }
   }
 }
 

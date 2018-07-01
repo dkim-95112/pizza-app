@@ -80,7 +80,7 @@ function RequiredTopping(props) {
         type="checkbox"
         checked disabled
       />
-      <span>{props.topping}</span>
+      <h3>{props.topping}</h3>
     </label>
   )
 }
@@ -93,7 +93,7 @@ function OptionalTopping(props) {
         checked={props.checked}
         onChange={e => props.cbToggleTopping(e, props.topping)}
       />
-      <span>{props.topping}</span>
+      <h3>{props.topping}</h3>
     </label>
   )
 }
