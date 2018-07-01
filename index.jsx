@@ -1,23 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import _ from 'lodash'
 import JumboTron from './src/jumbotron/index.jsx'
 import './index.css'
 
-const franchises = {
+const franchisesByCity = {
   'new york': {
     name: 'ny place',
     cheese: {
       name: 'ny cheese',
-      toppings: ['sausage', 'mushrooms']
+      toppings: ['sausage', 'olives']
     },
     meat: {
       name: 'ny meat',
-      toppings: ['pepperoni', 'sausage', 'mushrooms']
+      toppings: ['sausage', 'olives']
     },
     veggie: {
       name: 'ny veggie',
-      toppings: ['mushrooms', 'olives']
+      toppings: ['olives']
     }
   },
   'chicago': {
@@ -28,35 +27,40 @@ const franchises = {
     },
     meat: {
       name: 'chicago meat',
-      toppings: ['pepperoni', 'sausage', 'peppers']
+      toppings: ['sausage', 'peppers']
     },
     veggie: {
       name: 'chicago veggie',
-      toppings: ['mushrooms', 'peppers']
+      toppings: ['peppers']
     }
   },
   'san francisco': {
     name: 'sf place',
     cheese: {
       name: 'sf cheese',
-      toppings: ['sausage', 'olives']
+      toppings: ['sausage', 'onions']
     },
     meat: {
       name: 'sf meat',
-      toppings: ['pepperoni', 'sausage', 'olives']
+      toppings: ['sausage', 'onions']
     },
     veggie: {
       name: 'sf veggie',
-      toppings: ['mushrooms', 'olives']
+      toppings: ['onions']
     }
   }
+}
+
+const requiredToppingsBySpecialty = {
+  meat: ['pepperoni'],
+  veggie: ['mushrooms']
 }
 
 function Franchise(props) {
   return (
     <div className={`franchise ${props.selected ? 'selected' : ''}`}>
       <span>{props.name}</span>
-      <a href="#" onClick={e => props.cbSelectLocation(e, props.location)}>
+      <a href="#" onClick={e => props.cbSelectCity(e, props.city)}>
         Order Pizza Online
       </a>
     </div>
@@ -74,9 +78,17 @@ function Pizza(props) {
   )
 }
 
-function Topping(props) {
+function RequiredTopping(props) {
   return (
-    <div className="topping">
+    <div className="required-topping">
+      <span>{props.topping}</span>
+    </div>
+  )
+}
+
+function OptionalTopping(props) {
+  return (
+    <div className="optional-topping">
       <label>
         <input
           type="checkbox"
@@ -93,18 +105,18 @@ class PizzaApp extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedLocation: '',
+      selectedCity: '',
       selectedSpecialty: '',
     }
-    this.cbSelectLocation = this.cbSelectLocation.bind(this)
+    this.cbSelectCity = this.cbSelectCity.bind(this)
     this.cbSelectSpecialty = this.cbSelectSpecialty.bind(this)
     this.cbToggleTopping = this.cbToggleTopping.bind(this)
   }
 
-  cbSelectLocation(e, location) {
+  cbSelectCity(e, city) {
     e.preventDefault()
     this.setState({
-      selectedLocation: location
+      selectedCity: city
     })
   }
 
@@ -121,40 +133,59 @@ class PizzaApp extends React.Component {
   }
 
   render() {
-    const selectedLocation = this.state.selectedLocation,
-      selectedSpecialty = this.state.selectedSpecialty
+    const cities = Object.keys(franchisesByCity),
+      selectedCity = this.state.selectedCity,
+      selectedSpecialty = this.state.selectedSpecialty,
+      isPizzaSelected = selectedCity && selectedSpecialty,
+      requiredToppings = isPizzaSelected ?
+        requiredToppingsBySpecialty[selectedSpecialty] : [],
+      toppings = isPizzaSelected ?
+        franchisesByCity[selectedCity][selectedSpecialty].toppings : []
     return (
       <div className="pizza-app">
         <JumboTron/>
         <ul className="franchise-menu">{
-          Object.keys(franchises).map(location => {
-            return <li key={location}><Franchise
-              name={franchises[location].name}
-              location={location}
-              selected={selectedLocation === location}
-              cbSelectLocation={this.cbSelectLocation}
-            /></li>
+          cities.map(city => {
+            return <li key={city}>
+              <Franchise
+                name={franchisesByCity[city].name}
+                city={city}
+                selected={selectedCity === city}
+                cbSelectCity={this.cbSelectCity}
+              />
+            </li>
           })
         }</ul>
         <ul className="pizza-menu">{
-          _.isEmpty(selectedLocation) ||
+          selectedCity &&
           ['cheese', 'meat', 'veggie'].map(specialty => {
-            return <li key={specialty}><Pizza
-              specialty={specialty}
-              name={franchises[selectedLocation][specialty].name}
-              selected={selectedSpecialty === specialty}
-              cbSelectSpecialty={this.cbSelectSpecialty}
-            /></li>
+            return <li key={specialty}>
+              <Pizza
+                specialty={specialty}
+                name={franchisesByCity[selectedCity][specialty].name}
+                selected={selectedSpecialty === specialty}
+                cbSelectSpecialty={this.cbSelectSpecialty}
+              />
+            </li>
           })
         }</ul>
-        <ul className="topping-menu">{
-          _.isEmpty(selectedLocation) || _.isEmpty(selectedSpecialty) ||
-          franchises[selectedLocation][selectedSpecialty].toppings.map(topping => {
-            return <li key={topping}><Topping
-              topping={topping}
-              selected={this.state[topping]}
-              cbToggleTopping={this.cbToggleTopping}
-            /></li>
+        <ul className="required-toppings">{
+          requiredToppings &&
+          requiredToppings.map(topping => {
+            return <li key={topping}>
+              <RequiredTopping topping={topping}/>
+            </li>
+          })
+        }</ul>
+        <ul className="optional-toppings">{
+          toppings.map(topping => {
+            return <li key={topping}>
+              <OptionalTopping
+                topping={topping}
+                selected={this.state[topping]}
+                cbToggleTopping={this.cbToggleTopping}
+              />
+            </li>
           })
         }</ul>
       </div>
