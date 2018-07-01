@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import JumboTron from './src/jumbotron/index.jsx'
 import 'reset-css'
 import './index.less'
 
@@ -152,9 +151,8 @@ class PizzaApp extends React.Component {
         franchisesByCity[selectedCity][selectedSpecialty].toppings : []
     return (
       <div className="pizza-app">
-        <JumboTron/>
         <fieldset className="select-city">
-          <legend>SELECT CITY</legend>
+          <legend>select city</legend>
           <ul className="franchises">{
             cities.map(city => {
               return <li key={city}>
@@ -172,7 +170,7 @@ class PizzaApp extends React.Component {
           <fieldset className={`select-specialty-pizza
             ${selectedCity ? '' : 'hidden'}`}
           >
-            <legend>Select Specialty Pizza</legend>
+            <legend>select specialty pizza</legend>
             <ul className="pizza-specialties">{
               selectedCity &&
               ['cheese', 'meat', 'veggie'].map(specialty => {
@@ -188,47 +186,61 @@ class PizzaApp extends React.Component {
             }</ul>
           </fieldset>
         </div>
-        <div className="hiding-container">
-          <fieldset
-            className={`select-toppings
+        <div className="button-container">
+          <div className="hiding-container">
+            <fieldset
+              className={`select-toppings
             ${isPizzaSelected ? '' : 'hidden'}`}
-          >
-            <legend>Select Toppings</legend>
-            <ul className="toppings required">{
-              requiredToppings &&
-              requiredToppings.map(topping => {
-                return <li key={topping}>
-                  <RequiredTopping topping={topping}/>
-                </li>
-              })
-            }</ul>
-            <ul className="toppings optional">{
-              toppings.map(topping => {
-                return <li key={topping}>
-                  <OptionalTopping
-                    topping={topping}
-                    checked={this.state[topping]}
-                    cbToggleTopping={this.cbToggleTopping}
-                  />
-                </li>
-              })
-            }</ul>
-          </fieldset>
+            >
+              <legend>select toppings</legend>
+              <ul className="toppings required">{
+                requiredToppings &&
+                requiredToppings.map(topping => {
+                  return <li key={topping}>
+                    <RequiredTopping topping={topping}/>
+                  </li>
+                })
+              }</ul>
+              <ul className="toppings optional">{
+                toppings.map(topping => {
+                  return <li key={topping}>
+                    <OptionalTopping
+                      topping={topping}
+                      checked={this.state[topping]}
+                      cbToggleTopping={this.cbToggleTopping}
+                    />
+                  </li>
+                })
+              }</ul>
+            </fieldset>
+          </div>
+          {
+            isPizzaSelected ? (
+              <button
+                className={`order-button
+            ${isPizzaSelected ? '' : 'hidden'}`}
+                onClick={e => alert(JSON.stringify(this.state))}
+              >
+                Order Now
+              </button>
+            ) : ''
+          }
         </div>
-        <button
-          className={`order-button
-            ${isPizzaSelected ? '' : 'hidden'}`}
-          onClick={e => alert(JSON.stringify(this.state))}
-        >
-          Order
-        </button>
       </div>
     )
   }
 }
 
+function FixedHead(){
+  return (
+    <div className="fixed-head"></div>
+  )
+}
 
 ReactDOM.render(
-  <PizzaApp/>,
+  [
+    <FixedHead key="my-head"/>,
+    <PizzaApp key="my-app"/>
+  ],
   document.getElementById('root')
 )

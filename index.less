@@ -1,29 +1,56 @@
-body {
-  padding: 1em;
-  background-color: #9f9f9f;
-  font-family: Arial, sans-serif;
+@hover-higlight-color: #ffacb1;
+
+.pizza-app {
+  padding: 5rem 1rem 1rem;
   background-image: url(pizza.jpg);
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+.fixed-head {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 4em;
+  left: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1;
 }
 
 .hiding-container {
   position: relative;
   overflow-y: hidden;
-  .select-specialty-pizza {
+  margin-top: 1rem;
+  .select-specialty-pizza, .select-toppings {
     position: relative;
     left: 0;
     bottom: 0;
-    transition: bottom 0.5s;
-    &.hidden {
-      bottom: 5em;
-    }
+    transition: bottom 0.3s;
+  }
+  .select-specialty-pizza.hidden {
+    bottom: 5rem;
+  }
+  .select-toppings.hidden {
+    bottom: 12rem;
   }
 }
 
 fieldset {
-  border: 1px solid lightgray;
+  border-radius: 0.5rem;
   legend {
     color: #ffffff;
     font-weight: bold;
+    font-size: 4rem;
+    margin-left: 2rem;
+    text-shadow: -4px -6px rgba(0,0,0,0.5);
   }
 }
 
@@ -37,7 +64,7 @@ fieldset {
         padding: 1em;
         cursor: pointer;
         &:hover {
-          background-color: #ffacb1;
+          background-color: @hover-higlight-color;
         }
         &.selected {
           cursor: auto;
@@ -72,7 +99,6 @@ fieldset {
 }
 
 .select-toppings {
-  margin: 1em 0;
   background-color: rgba(255, 38, 33, 0.97);
   .topping {
     padding: 1em;
@@ -85,3 +111,19 @@ fieldset {
     }
   }
 }
+
+.button-container {
+  position: relative;
+  .order-button {
+    position: absolute;
+    right: 4rem;
+    bottom: 1rem;
+    font-size: 2.5rem;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 0.5rem 3.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+}
+
