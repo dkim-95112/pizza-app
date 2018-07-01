@@ -1,11 +1,57 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import _ from 'lodash'
 import JumboTron from './src/jumbotron/index.jsx'
 import './index.css'
 
+const franchises = {
+  'new york': {
+    cheese: {
+      name: 'ny cheese',
+      toppings: ['sausage', 'mushrooms']
+    },
+    meat: {
+      name: 'ny meat',
+      toppings: ['pepperoni', 'sausage', 'mushrooms']
+    },
+    veggie: {
+      name: 'ny veggie',
+      toppings: ['mushrooms', 'olives']
+    }
+  },
+  'chicago': {
+    cheese: {
+      name: 'chicago cheese',
+      toppings: ['sausage', 'peppers']
+    },
+    meat: {
+      name: 'chicago meat',
+      toppings: ['pepperoni', 'sausage', 'peppers']
+    },
+    veggie: {
+      name: 'chicago veggie',
+      toppings: ['mushrooms', 'peppers']
+    }
+  },
+  'san francisco': {
+    cheese: {
+      name: 'sf cheese',
+      toppings: ['sausage', 'olives']
+    },
+    meat: {
+      name: 'sf meat',
+      toppings: ['pepperoni', 'sausage', 'olives']
+    },
+    veggie: {
+      name: 'sf veggie',
+      toppings: ['mushrooms', 'olives']
+    }
+  }
+}
+
 function Franchise(props) {
   return (
-    <div className="franchise" selected={props.selected}>
+    <div className={`franchise ${props.selected ? 'selected' : ''}`}>
       <span>{props.location}</span>
       <a href="#" onClick={e => props.cbSelectLocation(e, props.location)}>
         Order Pizza Online
@@ -17,11 +63,10 @@ function Franchise(props) {
 function Pizza(props) {
   return (
     <div
-      className="pizza"
-      selected={props.selected}
+      className={`pizza ${props.selected ? 'selected' : ''}`}
       onClick={e => props.cbSelectSpecialty(e, props.specialty)}
     >
-      <span>{props.specialty}</span>
+      <span>{props.name}</span>
     </div>
   )
 }
@@ -47,8 +92,6 @@ class PizzaApp extends React.Component {
     this.state = {
       selectedLocation: '',
       selectedSpecialty: '',
-      mushrooms: false,
-      pepperoni: false
     }
     this.cbSelectLocation = this.cbSelectLocation.bind(this)
     this.cbSelectSpecialty = this.cbSelectSpecialty.bind(this)
@@ -75,29 +118,34 @@ class PizzaApp extends React.Component {
   }
 
   render() {
+    const selectedLocation = this.state.selectedLocation,
+      selectedSpecialty = this.state.selectedSpecialty
     return (
       <div className="pizza-app">
         <JumboTron/>
         <ul className="franchise-menu">{
-          ['new york', 'chicago', 'san francisco'].map(location => {
+          Object.keys(franchises).map(location => {
             return <li key={location}><Franchise
               location={location}
-              selected={this.state.selectedLocation === location}
+              selected={selectedLocation === location}
               cbSelectLocation={this.cbSelectLocation}
             /></li>
           })
         }</ul>
         <ul className="pizza-menu">{
+          _.isEmpty(selectedLocation) ||
           ['cheese', 'meat', 'veggie'].map(specialty => {
             return <li key={specialty}><Pizza
               specialty={specialty}
-              selected={this.state.selectedSpecialty === specialty}
+              name={franchises[selectedLocation][specialty].name}
+              selected={selectedSpecialty === specialty}
               cbSelectSpecialty={this.cbSelectSpecialty}
             /></li>
           })
         }</ul>
         <ul className="topping-menu">{
-          ['mushrooms', 'pepperoni'].map(topping => {
+          _.isEmpty(selectedLocation) || _.isEmpty(selectedSpecialty) ||
+          franchises[selectedLocation][selectedSpecialty].toppings.map(topping => {
             return <li key={topping}><Topping
               topping={topping}
               selected={this.state[topping]}

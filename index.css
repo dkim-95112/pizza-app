@@ -1,3 +1,7 @@
-.franchise {
+.franchise.selected {
     border: 1px solid darkblue;
+}
+
+.pizza.selected {
+    border: 1px solid darkcyan;
 }
