@@ -1,10 +1,15 @@
+@card-bgcolor: rgba(255, 38, 33, 0.97);
 @hover-higlight-color: #ffacb1;
+
+#root {
+  font-family: Arial, sans-serif;
+  color: white;
+}
 
 .pizza-app {
   padding: 5rem 1rem 1rem;
   background-image: url(pizza.jpg);
-  font-family: Arial, sans-serif;
-  color: white;
+  min-height: 650px;
 }
 
 h2 {
@@ -19,10 +24,13 @@ h3 {
   position: fixed;
   top: 0;
   right: 0;
-  height: 4em;
+  height: 1em;
   left: 0;
   background: rgba(0, 0, 0, 0.75);
   z-index: 1;
+  padding: 1rem;
+  color: rgba(255,255,255,0.75);
+  font-size: 2rem;
 }
 
 .hiding-container {
@@ -55,23 +63,21 @@ fieldset {
 }
 
 .select-city {
-  background-color: rgba(255, 38, 33, 0.97);
+  background-color: @card-bgcolor;
   .franchises {
     display: flex;
     li {
       flex: 0.33;
-      .franchise {
-        padding: 1em;
-        cursor: pointer;
+      padding: 1em;
+      cursor: pointer;
+      &:hover {
+        background-color: @hover-higlight-color;
+      }
+      &.selected {
+        cursor: auto;
+        border: 1px solid #d97181;
         &:hover {
-          background-color: @hover-higlight-color;
-        }
-        &.selected {
-          cursor: auto;
-          border: 1px solid #d97181;
-          &:hover {
-            background-color: unset;
-          }
+          background-color: unset;
         }
       }
     }
@@ -79,34 +85,33 @@ fieldset {
 }
 
 .select-specialty-pizza {
-  background-color: rgba(255, 38, 33, 0.97);
+  background-color: @card-bgcolor;
   .pizza-specialties {
     display: flex;
     li {
       flex: 0.33;
-      .pizza-specialty {
-        padding: 1em;
-        cursor: pointer;
-        &:hover {
-          background-color: cornflowerblue;
-        }
-        &.selected {
-          border: 1px solid darkcyan;
-        }
+      cursor: pointer;
+      padding: 1em;
+      &:hover {
+        background-color: @hover-higlight-color;
+      }
+      &.selected {
+        border: 1px solid darkcyan;
+        cursor: auto;
       }
     }
   }
 }
 
 .select-toppings {
-  background-color: rgba(255, 38, 33, 0.97);
+  background-color: @card-bgcolor;
   .topping {
     padding: 1em;
     display: block;
     &.optional {
       cursor: pointer;
       &:hover {
-        background-color: aqua;
+        background-color: @hover-higlight-color;
       }
     }
   }

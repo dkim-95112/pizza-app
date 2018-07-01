@@ -58,11 +58,7 @@ const requiredToppingsBySpecialty = {
 
 function Franchise(props) {
   return (
-    <div
-      className={`franchise
-        ${props.selected ? 'selected' : ''}`}
-      onClick={e => props.cbSelectCity(e, props.city)}
-    >
+    <div className={`franchise`}>
       <h2>{props.name}</h2>
       <h3>{props.city}</h3>
     </div>
@@ -71,11 +67,7 @@ function Franchise(props) {
 
 function Pizza(props) {
   return (
-    <div
-      className={`pizza-specialty
-        ${props.selected ? 'selected' : ''}`}
-      onClick={e => props.cbSelectSpecialty(e, props.specialty)}
-    >
+    <div className="pizza-specialty">
       <h3>{props.name}</h3>
     </div>
   )
@@ -155,12 +147,14 @@ class PizzaApp extends React.Component {
           <legend>select city</legend>
           <ul className="franchises">{
             cities.map(city => {
-              return <li key={city}>
+              return <li
+                key={city}
+                className={selectedCity === city ? 'selected' : ''}
+                onClick={e => this.cbSelectCity(e, city)}
+              >
                 <Franchise
                   name={franchisesByCity[city].name}
                   city={city}
-                  selected={selectedCity === city}
-                  cbSelectCity={this.cbSelectCity}
                 />
               </li>
             })
@@ -174,12 +168,14 @@ class PizzaApp extends React.Component {
             <ul className="pizza-specialties">{
               selectedCity &&
               ['cheese', 'meat', 'veggie'].map(specialty => {
-                return <li key={specialty}>
+                return <li
+                  key={specialty}
+                  className={selectedSpecialty === specialty ? 'selected' : ''}
+                  onClick={e => this.cbSelectSpecialty(e, specialty)}
+                >
                   <Pizza
                     specialty={specialty}
                     name={franchisesByCity[selectedCity][specialty].name}
-                    selected={selectedSpecialty === specialty}
-                    cbSelectSpecialty={this.cbSelectSpecialty}
                   />
                 </li>
               })
@@ -217,9 +213,8 @@ class PizzaApp extends React.Component {
           {
             isPizzaSelected ? (
               <button
-                className={`order-button
-            ${isPizzaSelected ? '' : 'hidden'}`}
-                onClick={e => alert(JSON.stringify(this.state))}
+                className={`order-button`}
+                onClick={e => alert(JSON.stringify(this.state, null, '\t'))}
               >
                 Order Now
               </button>
@@ -233,7 +228,9 @@ class PizzaApp extends React.Component {
 
 function FixedHead(){
   return (
-    <div className="fixed-head"></div>
+    <div className="fixed-head">
+      01 July 2018 - Robin code challenge by David
+    </div>
   )
 }
 
