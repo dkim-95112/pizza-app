@@ -5,8 +5,18 @@ body {
   background-image: url(pizza.jpg);
 }
 
-.hidden {
-  display: none;
+.hiding-container {
+  position: relative;
+  overflow-y: hidden;
+  .select-specialty-pizza {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    transition: bottom 0.5s;
+    &.hidden {
+      bottom: 5em;
+    }
+  }
 }
 
 fieldset {
@@ -18,7 +28,6 @@ fieldset {
 }
 
 .select-city {
-  margin: 1em 0;
   background-color: rgba(255, 38, 33, 0.97);
   .franchises {
     display: flex;
@@ -28,10 +37,14 @@ fieldset {
         padding: 1em;
         cursor: pointer;
         &:hover {
-          background-color: pink;
+          background-color: #ffacb1;
         }
         &.selected {
-          border: 1px solid darkblue;
+          cursor: auto;
+          border: 1px solid #d97181;
+          &:hover {
+            background-color: unset;
+          }
         }
       }
     }
@@ -39,7 +52,6 @@ fieldset {
 }
 
 .select-specialty-pizza {
-  margin: 1em 0;
   background-color: rgba(255, 38, 33, 0.97);
   .pizza-specialties {
     display: flex;

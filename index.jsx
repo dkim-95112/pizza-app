@@ -89,7 +89,7 @@ function RequiredTopping(props) {
         type="checkbox"
         checked disabled
       />
-      <h4>{props.topping}</h4>
+      <span>{props.topping}</span>
     </label>
   )
 }
@@ -102,7 +102,7 @@ function OptionalTopping(props) {
         checked={props.checked}
         onChange={e => props.cbToggleTopping(e, props.topping)}
       />
-      <h4>{props.topping}</h4>
+      <span>{props.topping}</span>
     </label>
   )
 }
@@ -168,49 +168,53 @@ class PizzaApp extends React.Component {
             })
           }</ul>
         </fieldset>
-        <fieldset className={`select-specialty-pizza
-          ${selectedCity ? '' : 'hidden'}`}
-        >
-          <legend>Select Specialty Pizza</legend>
-          <ul className="pizza-specialties">{
-            selectedCity &&
-            ['cheese', 'meat', 'veggie'].map(specialty => {
-              return <li key={specialty}>
-                <Pizza
-                  specialty={specialty}
-                  name={franchisesByCity[selectedCity][specialty].name}
-                  selected={selectedSpecialty === specialty}
-                  cbSelectSpecialty={this.cbSelectSpecialty}
-                />
-              </li>
-            })
-          }</ul>
-        </fieldset>
-        <fieldset
-          className={`select-toppings
+        <div className="hiding-container">
+          <fieldset className={`select-specialty-pizza
+            ${selectedCity ? '' : 'hidden'}`}
+          >
+            <legend>Select Specialty Pizza</legend>
+            <ul className="pizza-specialties">{
+              selectedCity &&
+              ['cheese', 'meat', 'veggie'].map(specialty => {
+                return <li key={specialty}>
+                  <Pizza
+                    specialty={specialty}
+                    name={franchisesByCity[selectedCity][specialty].name}
+                    selected={selectedSpecialty === specialty}
+                    cbSelectSpecialty={this.cbSelectSpecialty}
+                  />
+                </li>
+              })
+            }</ul>
+          </fieldset>
+        </div>
+        <div className="hiding-container">
+          <fieldset
+            className={`select-toppings
             ${isPizzaSelected ? '' : 'hidden'}`}
-        >
-          <legend>Select Toppings</legend>
-          <ul className="toppings required">{
-            requiredToppings &&
-            requiredToppings.map(topping => {
-              return <li key={topping}>
-                <RequiredTopping topping={topping}/>
-              </li>
-            })
-          }</ul>
-          <ul className="toppings optional">{
-            toppings.map(topping => {
-              return <li key={topping}>
-                <OptionalTopping
-                  topping={topping}
-                  checked={this.state[topping]}
-                  cbToggleTopping={this.cbToggleTopping}
-                />
-              </li>
-            })
-          }</ul>
-        </fieldset>
+          >
+            <legend>Select Toppings</legend>
+            <ul className="toppings required">{
+              requiredToppings &&
+              requiredToppings.map(topping => {
+                return <li key={topping}>
+                  <RequiredTopping topping={topping}/>
+                </li>
+              })
+            }</ul>
+            <ul className="toppings optional">{
+              toppings.map(topping => {
+                return <li key={topping}>
+                  <OptionalTopping
+                    topping={topping}
+                    checked={this.state[topping]}
+                    cbToggleTopping={this.cbToggleTopping}
+                  />
+                </li>
+              })
+            }</ul>
+          </fieldset>
+        </div>
         <button
           className={`order-button
             ${isPizzaSelected ? '' : 'hidden'}`}
