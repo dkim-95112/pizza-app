@@ -6,6 +6,7 @@ import './index.css'
 
 const franchises = {
   'new york': {
+    name: 'ny place',
     cheese: {
       name: 'ny cheese',
       toppings: ['sausage', 'mushrooms']
@@ -20,6 +21,7 @@ const franchises = {
     }
   },
   'chicago': {
+    name: 'chicago place',
     cheese: {
       name: 'chicago cheese',
       toppings: ['sausage', 'peppers']
@@ -34,6 +36,7 @@ const franchises = {
     }
   },
   'san francisco': {
+    name: 'sf place',
     cheese: {
       name: 'sf cheese',
       toppings: ['sausage', 'olives']
@@ -52,7 +55,7 @@ const franchises = {
 function Franchise(props) {
   return (
     <div className={`franchise ${props.selected ? 'selected' : ''}`}>
-      <span>{props.location}</span>
+      <span>{props.name}</span>
       <a href="#" onClick={e => props.cbSelectLocation(e, props.location)}>
         Order Pizza Online
       </a>
@@ -126,6 +129,7 @@ class PizzaApp extends React.Component {
         <ul className="franchise-menu">{
           Object.keys(franchises).map(location => {
             return <li key={location}><Franchise
+              name={franchises[location].name}
               location={location}
               selected={selectedLocation === location}
               cbSelectLocation={this.cbSelectLocation}
