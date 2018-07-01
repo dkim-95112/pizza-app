@@ -82,7 +82,7 @@ function Pizza(props) {
 
 function RequiredTopping(props) {
   return (
-    <div className="required-topping">
+    <div className="topping required">
       <label>
         <input
           type="checkbox"
@@ -96,12 +96,12 @@ function RequiredTopping(props) {
 
 function OptionalTopping(props) {
   return (
-    <div className="optional-topping">
+    <div className="topping optional">
       <label>
         <input
           type="checkbox"
           checked={props.checked}
-          onClick={e => props.cbToggleTopping(e, props.topping)}
+          onChange={e => props.cbToggleTopping(e, props.topping)}
         />
         <span>{props.topping}</span>
       </label>
@@ -181,7 +181,7 @@ class PizzaApp extends React.Component {
             </li>
           })
         }</ul>
-        <ul className="required-toppings">{
+        <ul className="toppings required">{
           requiredToppings &&
           requiredToppings.map(topping => {
             return <li key={topping}>
@@ -189,7 +189,7 @@ class PizzaApp extends React.Component {
             </li>
           })
         }</ul>
-        <ul className="optional-toppings">{
+        <ul className="toppings optional">{
           toppings.map(topping => {
             return <li key={topping}>
               <OptionalTopping
