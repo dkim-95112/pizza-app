@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import JumboTron from './src/jumbotron/index.jsx'
-import './index.css'
+import 'reset-css'
+import './index.less'
 
 const franchisesByCity = {
   'new york': {
@@ -59,7 +60,8 @@ const requiredToppingsBySpecialty = {
 function Franchise(props) {
   return (
     <div className={`franchise ${props.selected ? 'selected' : ''}`}>
-      <span>{props.name}</span>
+      <h2>{props.name}</h2>
+      <h3>{props.city}</h3>
       <a href="#" onClick={e => props.cbSelectCity(e, props.city)}>
         Order Pizza Online
       </a>
@@ -70,7 +72,7 @@ function Franchise(props) {
 function Pizza(props) {
   return (
     <div
-      className={`pizza ${props.selected ? 'selected' : ''}`}
+      className={`pizza-specialty ${props.selected ? 'selected' : ''}`}
       onClick={e => props.cbSelectSpecialty(e, props.specialty)}
     >
       <span>{props.name}</span>
@@ -81,7 +83,13 @@ function Pizza(props) {
 function RequiredTopping(props) {
   return (
     <div className="required-topping">
-      <span>{props.topping}</span>
+      <label>
+        <input
+          type="checkbox"
+          checked disabled
+        />
+        <span>{props.topping}</span>
+      </label>
     </div>
   )
 }
@@ -92,13 +100,17 @@ function OptionalTopping(props) {
       <label>
         <input
           type="checkbox"
-          selected={props.selected}
-          onChange={e => props.cbToggleTopping(e, props.topping)}
+          checked={props.checked}
+          onClick={e => props.cbToggleTopping(e, props.topping)}
         />
         <span>{props.topping}</span>
       </label>
     </div>
   )
+}
+
+OptionalTopping.defaultProps = {
+  checked: false
 }
 
 class PizzaApp extends React.Component {
@@ -144,7 +156,7 @@ class PizzaApp extends React.Component {
     return (
       <div className="pizza-app">
         <JumboTron/>
-        <ul className="franchise-menu">{
+        <ul className="franchises">{
           cities.map(city => {
             return <li key={city}>
               <Franchise
@@ -156,7 +168,7 @@ class PizzaApp extends React.Component {
             </li>
           })
         }</ul>
-        <ul className="pizza-menu">{
+        <ul className="pizza-specialties">{
           selectedCity &&
           ['cheese', 'meat', 'veggie'].map(specialty => {
             return <li key={specialty}>
@@ -182,7 +194,7 @@ class PizzaApp extends React.Component {
             return <li key={topping}>
               <OptionalTopping
                 topping={topping}
-                selected={this.state[topping]}
+                checked={this.state[topping]}
                 cbToggleTopping={this.cbToggleTopping}
               />
             </li>
