@@ -1,9 +1,21 @@
+body {
+  padding: 1em;
+}
+
+fieldset {
+  border: 1px solid lightgray;
+}
+
 .franchises {
   display: flex;
   li {
     flex: 0.33;
     .franchise {
       padding: 1em;
+      cursor: pointer;
+      &:hover {
+        background-color: pink;
+      }
       &.selected {
         border: 1px solid darkblue;
       }
@@ -11,19 +23,36 @@
   }
 }
 
-.pizza-specialties {
-  display: flex;
-  li {
-    flex: 0.33;
-    .pizza-specialty {
-      padding: 1em;
-      &.selected {
-        border: 1px solid darkcyan;
+.select-specialty-pizza {
+  margin: 1em 0;
+  .pizza-specialties {
+    display: flex;
+    li {
+      flex: 0.33;
+      .pizza-specialty {
+        padding: 1em;
+        cursor: pointer;
+        &:hover {
+          background-color: cornflowerblue;
+        }
+        &.selected {
+          border: 1px solid darkcyan;
+        }
       }
     }
   }
 }
 
-.topping {
-  padding: 1em;
+.select-toppings {
+  margin: 1em 0;
+  .topping {
+    padding: 1em;
+    display: block;
+    &.optional {
+      cursor: pointer;
+      &:hover {
+        background-color: aqua;
+      }
+    }
+  }
 }

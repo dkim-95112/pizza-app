@@ -59,12 +59,12 @@ const requiredToppingsBySpecialty = {
 
 function Franchise(props) {
   return (
-    <div className={`franchise ${props.selected ? 'selected' : ''}`}>
+    <div
+      className={`franchise ${props.selected ? 'selected' : ''}`}
+      onClick={e => props.cbSelectCity(e, props.city)}
+    >
       <h2>{props.name}</h2>
       <h3>{props.city}</h3>
-      <a href="#" onClick={e => props.cbSelectCity(e, props.city)}>
-        Order Pizza Online
-      </a>
     </div>
   )
 }
@@ -82,30 +82,26 @@ function Pizza(props) {
 
 function RequiredTopping(props) {
   return (
-    <div className="topping required">
-      <label>
-        <input
-          type="checkbox"
-          checked disabled
-        />
-        <span>{props.topping}</span>
-      </label>
-    </div>
+    <label className="topping required">
+      <input
+        type="checkbox"
+        checked disabled
+      />
+      <span>{props.topping}</span>
+    </label>
   )
 }
 
 function OptionalTopping(props) {
   return (
-    <div className="topping optional">
-      <label>
-        <input
-          type="checkbox"
-          checked={props.checked}
-          onChange={e => props.cbToggleTopping(e, props.topping)}
-        />
-        <span>{props.topping}</span>
-      </label>
-    </div>
+    <label className="topping optional">
+      <input
+        type="checkbox"
+        checked={props.checked}
+        onChange={e => props.cbToggleTopping(e, props.topping)}
+      />
+      <span>{props.topping}</span>
+    </label>
   )
 }
 
@@ -156,50 +152,74 @@ class PizzaApp extends React.Component {
     return (
       <div className="pizza-app">
         <JumboTron/>
-        <ul className="franchises">{
-          cities.map(city => {
-            return <li key={city}>
-              <Franchise
-                name={franchisesByCity[city].name}
-                city={city}
-                selected={selectedCity === city}
-                cbSelectCity={this.cbSelectCity}
-              />
-            </li>
-          })
-        }</ul>
-        <ul className="pizza-specialties">{
-          selectedCity &&
-          ['cheese', 'meat', 'veggie'].map(specialty => {
-            return <li key={specialty}>
-              <Pizza
-                specialty={specialty}
-                name={franchisesByCity[selectedCity][specialty].name}
-                selected={selectedSpecialty === specialty}
-                cbSelectSpecialty={this.cbSelectSpecialty}
-              />
-            </li>
-          })
-        }</ul>
-        <ul className="toppings required">{
-          requiredToppings &&
-          requiredToppings.map(topping => {
-            return <li key={topping}>
-              <RequiredTopping topping={topping}/>
-            </li>
-          })
-        }</ul>
-        <ul className="toppings optional">{
-          toppings.map(topping => {
-            return <li key={topping}>
-              <OptionalTopping
-                topping={topping}
-                checked={this.state[topping]}
-                cbToggleTopping={this.cbToggleTopping}
-              />
-            </li>
-          })
-        }</ul>
+        <fieldset className="select-city">
+          <legend>Select City</legend>
+          <ul className="franchises">{
+            cities.map(city => {
+              return <li key={city}>
+                <Franchise
+                  name={franchisesByCity[city].name}
+                  city={city}
+                  selected={selectedCity === city}
+                  cbSelectCity={this.cbSelectCity}
+                />
+              </li>
+            })
+          }</ul>
+        </fieldset>
+        {
+          selectedCity ? (
+            <fieldset className="select-specialty-pizza">
+              <legend>Select Specialty Pizza</legend>
+              <ul className="pizza-specialties">{
+                selectedCity &&
+                ['cheese', 'meat', 'veggie'].map(specialty => {
+                  return <li key={specialty}>
+                    <Pizza
+                      specialty={specialty}
+                      name={franchisesByCity[selectedCity][specialty].name}
+                      selected={selectedSpecialty === specialty}
+                      cbSelectSpecialty={this.cbSelectSpecialty}
+                    />
+                  </li>
+                })
+              }</ul>
+            </fieldset>
+          ) : ''
+        }
+        {
+          isPizzaSelected ? (
+            <fieldset className="select-toppings">
+              <legend>Select Toppings</legend>
+              <ul className="toppings required">{
+                requiredToppings &&
+                requiredToppings.map(topping => {
+                  return <li key={topping}>
+                    <RequiredTopping topping={topping}/>
+                  </li>
+                })
+              }</ul>
+              <ul className="toppings optional">{
+                toppings.map(topping => {
+                  return <li key={topping}>
+                    <OptionalTopping
+                      topping={topping}
+                      checked={this.state[topping]}
+                      cbToggleTopping={this.cbToggleTopping}
+                    />
+                  </li>
+                })
+              }</ul>
+            </fieldset>
+          ) : ''
+        }
+        {
+          isPizzaSelected ? (
+            <button onClick={e => alert(JSON.stringify(this.state))}>
+              Order
+            </button>
+          ) : ''
+        }
       </div>
     )
   }
