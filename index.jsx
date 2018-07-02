@@ -5,47 +5,47 @@ import './index.less'
 
 const franchisesByCity = {
   'new york': {
-    name: 'ny place',
+    name: 'jet\'s place',
     cheese: {
-      name: 'ny cheese',
+      name: 'jet cheese',
       toppings: ['sausage', 'olives']
     },
     meat: {
-      name: 'ny meat',
+      name: 'jet meat',
       toppings: ['sausage', 'olives']
     },
     veggie: {
-      name: 'ny veggie',
+      name: 'jet veggie',
       toppings: ['olives']
     }
   },
   'chicago': {
-    name: 'chicago place',
+    name: 'bear\'s place',
     cheese: {
-      name: 'chicago cheese',
+      name: 'bear cheese',
       toppings: ['sausage', 'peppers']
     },
     meat: {
-      name: 'chicago meat',
+      name: 'bear meat',
       toppings: ['sausage', 'peppers']
     },
     veggie: {
-      name: 'chicago veggie',
+      name: 'bear veggie',
       toppings: ['peppers']
     }
   },
   'san francisco': {
-    name: 'sf place',
+    name: 'niner\'s place',
     cheese: {
-      name: 'sf cheese',
+      name: 'niner cheese',
       toppings: ['sausage', 'onions']
     },
     meat: {
-      name: 'sf meat',
+      name: 'niner meat',
       toppings: ['sausage', 'onions']
     },
     veggie: {
-      name: 'sf veggie',
+      name: 'niner veggie',
       toppings: ['onions']
     }
   }
