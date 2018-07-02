@@ -76,8 +76,14 @@ fieldset {
       flex: 0.3333;
       padding: 1rem;
       cursor: pointer;
+      &:first-of-type {
+        border-radius: 1rem 0 0 1rem;
+      }
       &:not(:first-of-type) {
         border-left: 3px solid rgba(255, 255, 255, 0.5);
+      }
+      &:last-of-type {
+        border-radius: 0 1rem 1rem 0;
       }
       background-color: transparent;
       transition-property: background-color, text-shadow;
@@ -109,14 +115,19 @@ fieldset {
       background-color: transparent;
       transition-property: background-color, text-shadow;
       transition-duration: @transition-duration;
+      &:first-of-type {
+        border-radius: 1rem 0 0 1rem;
+      }
       &:not(:first-of-type) {
         border-left: 3px solid rgba(255, 255, 255, 0.5);
+      }
+      &:last-of-type {
+        border-radius: 0 1rem 1rem 0;
       }
       &:hover {
         background-color: @hover-higlight-color;
       }
       &.selected {
-        border: 1px solid darkcyan;
         cursor: auto;
         text-shadow: @text-shadow;
         background: @selected-linear-gradient;
