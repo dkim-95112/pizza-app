@@ -144,23 +144,25 @@ class PizzaApp extends React.Component {
       toppings = isPizzaSelected ?
         franchisesByCity[selectedCity][selectedSpecialty].toppings : []
     return <div className="pizza-app">
-      <fieldset className="select-city">
-        <legend>select city</legend>
-        <ul className="franchises">{
-          cities.map(city => {
-            return <li
-              key={city}
-              className={selectedCity === city ? 'selected' : ''}
-              onClick={e => this.cbSelectCity(e, city)}
-            >
-              <Franchise
-                name={franchisesByCity[city].name}
-                city={city}
-              />
-            </li>
-          })
-        }</ul>
-      </fieldset>
+      <div className="horizontal-scrolling-container">
+        <fieldset className="select-city">
+          <legend>select city</legend>
+          <ul className="franchises">{
+            cities.map(city => {
+              return <li
+                key={city}
+                className={selectedCity === city ? 'selected' : ''}
+                onClick={e => this.cbSelectCity(e, city)}
+              >
+                <Franchise
+                  name={franchisesByCity[city].name}
+                  city={city}
+                />
+              </li>
+            })
+          }</ul>
+        </fieldset>
+      </div>
       <div className="hiding-container">
         <fieldset className={`select-specialty-pizza
             ${selectedCity ? '' : 'hidden'}`}
